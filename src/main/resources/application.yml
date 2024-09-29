@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: ss-minio
+  # 数据库配置
+  profiles:
+    active: druid
+#  # 时间问题
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    time-zone: GMT+8
+#    locale: zh_CN
+#    # 日期是否转换为 timestamps
+#    serialization:
+#      write-dates-as-timestamps: false
+#    # 将所有的number类型转为 String 返回
+#    generator:
+#      write-numbers-as-strings: true
+
+  # 解决 knife4j 不显示
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # 文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+# mybatis-plus配置
+mybatis-plus:
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.ss.minio.entity
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    # 是否开启缓存
+    cache-enabled: false
+    jdbc-type-for-null: 'null'
+    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      # 主键类型 默认assign_id auto:"数据库ID自增"
+      id-type: auto
+      # 配置逻辑删除规则 1代表删除 0代表未删除
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# Minio 配置
+minio:
+  endpoint: http://127.0.0.1:8001 #对象存储服务的URL 注意必须加 http 或 https
+  accessKey: admin #Access key账户 写账号也可以
+  secretKey: admin123 #Secret key密码
+  bucketName: test # 桶名称
+  expire: 7200
+
+# knife4j 配置
+knife4j:
+  # 开启增强
+  enable: true
+  # 开启登录认证
+  basic:
+    enable: true
+    username: admin
+    password: 123456
+
