@@ -1,8 +1,11 @@
 package com.ss.minio.controller;
 
 
+import com.ss.minio.config.MinioProperties;
+import com.ss.minio.constant.Constant;
 import com.ss.minio.entity.MinioConfigEntity;
 import com.ss.minio.req.MinioConfigAddReq;
+import com.ss.minio.req.MinioConfigChangePwdReq;
 import com.ss.minio.req.MinioConfigEditReq;
 import com.ss.minio.req.MinioConfigPageReq;
 import com.ss.minio.res.Result;
@@ -13,8 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -27,6 +28,7 @@ import java.util.List;
 @Api(tags = "Minio配置管理")
 @RestController
 @RequestMapping("/minio")
+@CrossOrigin
 public class MinioConfigController {
 
     @Autowired
@@ -68,6 +70,13 @@ public class MinioConfigController {
         return Result.success();
     }
 
+    @ApiOperation("修改密码")
+    @PostMapping("/changePwd")
+    public Result changePwd(@Validated @RequestBody MinioConfigChangePwdReq req){
+        minioConfigService.changePwd(req);
+        return Result.success();
+    }
+
     @ApiOperation("切换minio配置")
     @GetMapping("/switch/{id}")
     public Result switchMinioConfig(@PathVariable("id") Long id) {
@@ -80,6 +89,14 @@ public class MinioConfigController {
     public Result refreshMinioConfig(Long id) {
         minioConfigService.refreshMinioConfig(id);
         return Result.success();
+    }
+
+    @ApiOperation("获取当前配置并刷新")
+    @GetMapping("/config-refresh")
+    public Result getMinioConfigAndRefresh() {
+        MinioConfigEntity minioConfigEntity = minioConfigService.getMinioConfigIsChoose(Constant.IS_CHOOSE);
+        minioConfigService.refreshMinioConfig(minioConfigEntity.getId());
+        return Result.success(minioConfigEntity);
     }
 
     @ApiOperation("验证minio连接")

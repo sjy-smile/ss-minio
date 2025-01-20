@@ -55,8 +55,8 @@ mybatis-plus:
 # Minio 配置
 minio:
   endpoint: http://127.0.0.1:8001 #对象存储服务的URL 注意必须加 http 或 https
-  accessKey: admin #Access key账户 写账号也可以
-  secretKey: admin123 #Secret key密码
+  accessKey: minioadmin #Access key账户 写账号也可以
+  secretKey: minioadmin #Secret key密码
   bucketName: test # 桶名称
   expire: 7200
 

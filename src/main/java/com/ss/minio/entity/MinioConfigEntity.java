@@ -6,6 +6,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -48,6 +49,7 @@ public class MinioConfigEntity implements Serializable {
     /**
      * 密码
      */
+    @JsonIgnore
     private String secretKey;
 
     /**

@@ -101,12 +101,19 @@
             <version>3.0.0</version>
         </dependency>
 
-<!--        &lt;!&ndash; hutool工具 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>cn.hutool</groupId>-->
-<!--            <artifactId>hutool-all</artifactId>-->
-<!--            <version>5.7.22</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.263</version>
+        </dependency>
+
+
+        <!-- hutool工具 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.22</version>
+        </dependency>
 
 <!--        &lt;!&ndash; json转换工具 &ndash;&gt;-->
 <!--        <dependency>-->

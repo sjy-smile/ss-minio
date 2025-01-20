@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @ApiModel("minio配置信息修改—入参")
 @Data
-public class    MinioConfigEditReq {
+public class MinioConfigEditReq {
 
     @ApiModelProperty(value = "id", required = true)
     @NotNull(message = "id不能为空")
@@ -30,17 +30,17 @@ public class    MinioConfigEditReq {
     private String accessKey;
 
     @ApiModelProperty(value = "密码", required = true)
-    @NotBlank(message = "密码不能为空")
+//    @NotBlank(message = "密码不能为空")
     private String secretKey;
 
     @ApiModelProperty(value = "默认桶名", required = true)
     @NotBlank(message = "桶名不能为空")
     private String defaultBucket;
 
-    @ApiModelProperty(value = "是否选择 1 选择 2 未选择", required = true,allowableValues = "1,2")
+    @ApiModelProperty(value = "是否选择 1 选择 2 未选择", required = true, allowableValues = "1,2")
     @NotNull(message = "是否选择不能为空")
-    @Min(value = 1,message = "可选择值 1-2")
-    @Max(value = 2,message = "可选择值 1-2")
+    @Min(value = 1, message = "可选择值 1-2")
+    @Max(value = 2, message = "可选择值 1-2")
     private Integer isChoose;
 
     @ApiModelProperty(value = "过期时间", required = true)

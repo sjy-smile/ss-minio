@@ -11,6 +11,7 @@ import com.ss.minio.exception.BaseException;
 import com.ss.minio.mapper.MinioConfigMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ss.minio.req.MinioConfigAddReq;
+import com.ss.minio.req.MinioConfigChangePwdReq;
 import com.ss.minio.req.MinioConfigEditReq;
 import com.ss.minio.req.MinioConfigPageReq;
 import org.springframework.beans.BeanUtils;
@@ -74,7 +75,7 @@ public class MinioConfigService extends ServiceImpl<MinioConfigMapper, MinioConf
         return properties;
     }
 
-    private MinioConfigEntity getMinioConfigIsChoose(Integer isChoose) {
+    public MinioConfigEntity getMinioConfigIsChoose(Integer isChoose) {
         LambdaQueryWrapper<MinioConfigEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(MinioConfigEntity::getIsChoose, isChoose);
         return minioConfigMapper.selectOne(queryWrapper);
@@ -117,8 +118,14 @@ public class MinioConfigService extends ServiceImpl<MinioConfigMapper, MinioConf
      */
     @Transactional(rollbackFor = Exception.class)
     public void editMinioConfig(MinioConfigEditReq req) {
+        // 根据id查询数据是否存在
+        MinioConfigEntity configEntity = minioConfigMapper.selectById(req.getId());
+        if (Objects.isNull(configEntity)){
+            throw new BaseException("数据不存在");
+        }
         MinioConfigEntity entity = new MinioConfigEntity();
         BeanUtils.copyProperties(req, entity);
+        entity.setSecretKey(configEntity.getSecretKey());
         minioConfigMapper.updateById(entity);
         // 切换minio配置信息
         switchMinioConfig(entity.getId());
@@ -159,5 +166,18 @@ public class MinioConfigService extends ServiceImpl<MinioConfigMapper, MinioConf
             throw new BaseException("数据不存在");
         }
         minioConfigMapper.deleteById(id);
+    }
+
+    /**
+     * 修改密码
+     * @param req
+     */
+    public void changePwd(MinioConfigChangePwdReq req) {
+        MinioConfigEntity configEntity = minioConfigMapper.selectById(req.getId());
+        if (Objects.isNull(configEntity)) {
+            throw new BaseException("数据不存在");
+        }
+        configEntity.setSecretKey(req.getSecretKey());
+        minioConfigMapper.updateById(configEntity);
     }
 }
